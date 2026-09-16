@@ -1,0 +1,47 @@
+Query 3. Protected Areas in Hamar and Their Intersecting Rivers. 
+
+PREFIX :     <http://www.OntoMM.org//>
+PREFIX geo:  <http://www.opengis.net/ont/geosparql#>
+PREFIX geof: <http://www.opengis.net/def/function/geosparql/>
+
+SELECT
+    ?protectedArea
+    ?protectedAreaName
+    ?municipalityName
+    ?geometry
+    (COUNT(DISTINCT ?river) AS ?intersectingRiverCount)
+WHERE {
+    # Select Gjøvik municipality
+    ?municipality a :Municipality ;
+                  :hasName ?municipalityName ;
+                  geo:hasDefaultGeometry/geo:asWKT ?municipalityWKT .
+
+    FILTER(
+        CONTAINS(
+            LCASE(STR(?municipalityName)),
+            "hamar"
+        )
+    )
+
+    # Protected areas intersecting the municipality
+    ?protectedArea a :ProtectedArea ;
+                   :hasName ?protectedAreaName ;
+                   geo:hasDefaultGeometry/geo:asWKT ?geometry .
+
+    FILTER(geof:sfIntersects(?geometry, ?municipalityWKT))
+
+    # Rivers intersecting each protected area
+    OPTIONAL {
+        ?river a :River ;
+               geo:hasDefaultGeometry/geo:asWKT ?riverWKT .
+
+        FILTER(geof:sfIntersects(?riverWKT, ?geometry))
+    }
+}
+GROUP BY
+    ?protectedArea
+    ?protectedAreaName
+    ?municipalityName
+    ?geometry
+ORDER BY DESC(?intersectingRiverCount)
+LIMIT 100
