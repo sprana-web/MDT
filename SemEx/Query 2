@@ -1,0 +1,44 @@
+Query 2. Rivers Intersecting Gjøvik Municipality and Protected Areas. 
+
+PREFIX :     <http://www.OntoMM.org//>
+PREFIX geo:  <http://www.opengis.net/ont/geosparql#>
+PREFIX geof: <http://www.opengis.net/def/function/geosparql/>
+
+SELECT DISTINCT
+    ?river
+    ?riverName
+    ?municipalityName
+    ?protectedArea
+    ?protectedAreaName
+    ?geometry
+WHERE {
+    # Select Gjøvik municipality
+    ?municipality a :Municipality ;
+                  :hasName ?municipalityName ;
+                  geo:hasDefaultGeometry/geo:asWKT ?municipalityWKT .
+
+    FILTER(
+        CONTAINS(
+            LCASE(STR(?municipalityName)),
+            "gjøvik"
+        )
+    )
+
+    # Select rivers intersecting the municipality
+    ?river a :River ;
+           :hasName ?riverName ;
+           geo:hasDefaultGeometry/geo:asWKT ?geometry .
+
+    FILTER(geof:sfIntersects(?geometry, ?municipalityWKT))
+
+    # Identify protected areas intersected by each river, when present
+    OPTIONAL {
+        ?protectedArea a :ProtectedArea ;
+                       :hasName ?protectedAreaName ;
+                       geo:hasDefaultGeometry/geo:asWKT ?protectedWKT .
+
+        FILTER(geof:sfIntersects(?geometry, ?protectedWKT))
+    }
+}
+ORDER BY ?riverName
+LIMIT 200
