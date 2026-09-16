@@ -1,0 +1,1 @@
+The MDT semantic integration prototype uses PostgreSQL/PostGIS as the underlying relational data environment. The schema.sql file provides the database structure used for the OBDA demonstration, including relevant tables, attributes, spatial geometry columns, constraints, and indexes. The file does not contain operational credentials or restricted source data.
