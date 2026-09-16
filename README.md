@@ -1,7 +1,3 @@
-Remote-sensing datasets are not directly virtualised through the OBDA layer. Sentinel-2 and MODIS imagery are processed within Google Earth Engine, and derived outputs are exposed to the MDT through the analytical components. This separation allows multidimensional raster processing to remain within a specialised cloud-processing environment while the semantic integration layer focuses on structured and queryable environmental information.
-
-The repository also provides documentation and scripts supporting the remote-sensing workflows demonstrated in LOCI and GreenScope.
-
 ## Data sources
 
 The MDT prototype integrates environmental information from several Norwegian and international data services.
