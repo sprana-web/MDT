@@ -1,4 +1,4 @@
-# GreenScope – MODIS Time-Series Analysis
+# GreenScope – MODIS NDVI Time-Series Analysis
 
 This folder contains the processing workflow used for long-term environmental monitoring in the GreenScope component.
 
