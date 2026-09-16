@@ -1,0 +1,72 @@
+[PrefixDeclaration]
+:		http://www.OntoMM.org//
+geo:		http://www.opengis.net/ont/geosparql#
+owl:		http://www.w3.org/2002/07/owl#
+rdf:		http://www.w3.org/1999/02/22-rdf-syntax-ns#
+xml:		http://www.w3.org/XML/1998/namespace
+xsd:		http://www.w3.org/2001/XMLSchema#
+obda:		https://w3id.org/obda/vocabulary#
+rdfs:		http://www.w3.org/2000/01/rdf-schema#
+
+[MappingDeclaration] @collection [[
+mappingId	rivers
+target		:rivers/{id} a :River ; :hasID {id} ; :hasLength {elvelengde} ; :hasName {elvenavn} ; geo:hasDefaultGeometry :rivers_geom/{id} . 
+source		select id, elvenavn, elvelengde
+			from rivers
+
+mappingId	stations
+target		:stations/{id} a :WeatherStation ; :hasID {stid} ; :hasName {name} ; :hasLat {lat} ; :hasLong {long} ; :hasCouncilName {municipali} ; geo:hasDefaultGeometry :stations_geom/{id} . 
+source		SELECT id, stid, name, lat, long, municipali
+			FROM public."stations"
+
+mappingId	stations_geom
+target		:stations_geom/{id} a geo:Geometry ; geo:asWKT {wkt}^^geo:wktLiteral . 
+source		SELECT id, ST_AsText(geom) AS wkt
+			FROM public."stations"
+
+mappingId	munis
+target		:munis/{id} a :Municipality ; :hasID {kommunenum} ; :hasName {kommunenav} ; :hasArea {area} ; :hasPop {pop} ; geo:hasDefaultGeometry :munis_geom/{id} . 
+source		SELECT id, kommunenum, kommunenav, pop, area
+			FROM public."muni"
+
+mappingId	munis_geom
+target		:munis_geom/{id} a geo:Geometry ; geo:asWKT {wkt}^^geo:wktLiteral . 
+source		SELECT id, ST_AsText(geom) AS wkt
+			FROM public."muni"
+
+mappingId	rivers_geom
+target		:rivers_geom/{id} a geo:Geometry ; geo:asWKT {wkt}^^geo:wktLiteral . 
+source		SELECT id, ST_AsText(geom) AS wkt
+			FROM public."rivers"
+
+mappingId	points
+target		:points/{id} a :Point ; :hasID {id} ; :hasName {name} ; :hasClass {fclass} ; geo:hasDefaultGeometry :points_geom/{id} . 
+source		SELECT id, fclass, name
+			FROM public."points_muni"
+
+mappingId	points_geom
+target		:points_geom/{id} a geo:Geometry ; geo:asWKT {wkt}^^geo:wktLiteral . 
+source		SELECT id, ST_AsText(geom) AS wkt
+			FROM public."points_muni"
+
+mappingId	protected_areas
+target		:protected/{id} a :ProtectedArea ; :hasID {id} ; :hasName {navn} ; :hasProtectionCategory {verneform} ; geo:hasDefaultGeometry :protected_geom/{id} . 
+source		SELECT id, navn, verneform
+			       FROM public.protected_areas
+
+mappingId	protected_areas_geometry
+target		:protected_geom/{id} a geo:Geometry ; geo:asWKT {wkt}^^geo:wktLiteral . 
+source		SELECT id, ST_AsText(geom) AS wkt
+			FROM public.protected_areas
+
+mappingId	watershed_areas
+target		:watersheds/{id} a :WatershedArea ; :hasID {id} ; :hasName {navnlokal} ; :hasArea {totareal} ; geo:hasDefaultGeometry :watershed_geom/{id} . 
+source		SELECT id, navnlokal, totareal
+			       FROM public.watershed_parts
+
+mappingId	watershed_areas_geometry
+target		:watershed_geom/{id} a geo:Geometry ; geo:asWKT {wkt}^^geo:wktLiteral . 
+source		SELECT id, ST_AsText(geom) AS wkt
+			       FROM public.watershed_parts
+]]
+
