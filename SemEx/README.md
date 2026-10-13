@@ -1,4 +1,4 @@
-SemEx semantic integration
+## SemEx semantic integration
 
 The SemEx directory contains the main artefacts used to demonstrate ontology-mediated access and GeoSPARQL querying in the MDT prototype.
 
@@ -12,7 +12,7 @@ SemEx/configuration/ – Example Ontop configuration file. Database credentials 
 
 SemEx/queries/ – Representative SPARQL/GeoSPARQL queries corresponding to the semantic-query demonstrations reported in the manuscript.
 
-Demonstration workflow
+## Demonstration workflow
 The semantic integration workflow used in the prototype is:
 PostgreSQL/PostGIS data → Ontop mappings → ontology-mediated virtual knowledge graph → SPARQL/GeoSPARQL queries → query results
 To reproduce the semantic-query demonstrations where the required source data are available:
