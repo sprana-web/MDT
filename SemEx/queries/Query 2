@@ -1,4 +1,4 @@
-Query 2. Rivers Intersecting Gjøvik Municipality and Protected Areas. 
+Query 2. Rivers Intersecting Gjøvik Municipality and Protected Areas Intersected by Those Rivers. 
 
 PREFIX :     <http://www.OntoMM.org//>
 PREFIX geo:  <http://www.opengis.net/ont/geosparql#>
